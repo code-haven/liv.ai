@@ -1,0 +1,19 @@
+{
+  "name": "liv.ai",
+  "version": "0.0.1",
+  "description": "A wrapper around liv.ai's APIs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/code-haven/liv.ai.git"
+  },
+  "author": "Abhinav I",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/code-haven/liv.ai/issues"
+  },
+  "homepage": "https://github.com/code-haven/liv.ai#readme"
+}
