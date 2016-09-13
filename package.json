@@ -1,5 +1,5 @@
 {
-  "name": "liv.ai",
+  "name": "liv.ai.api",
   "version": "0.0.1",
   "description": "A wrapper around liv.ai's APIs",
   "main": "index.js",
@@ -8,12 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/code-haven/liv.ai.git"
+    "url": "git+ssh://git@github.com/code-haven/liv.ai.api.git"
   },
   "author": "Abhinav I",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/code-haven/liv.ai/issues"
+    "url": "https://github.com/code-haven/liv.ai.api/issues"
   },
-  "homepage": "https://github.com/code-haven/liv.ai#readme"
+  "homepage": "https://github.com/code-haven/liv.ai.api#readme",
+  "dependencies": {
+    "request": "^2.74.0",
+    "restler": "^3.4.0",
+    "winston": "^2.2.0"
+  }
 }
