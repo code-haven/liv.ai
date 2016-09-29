@@ -3,16 +3,25 @@
 		log 	= require('./logger'),
 		fs   	= require('fs');
 
-	module.exports.downloadFileFromUrl = function(source_url, callback) {
+	module.exports.downloadFileFromUrl = function(source_url, callback, error_callback) {
 
 		request(source_url).on('response', (response) => {
-			console.log(response.headers);
-			const destination_filepath = `/tmp/${response.headers['content-disposition'].split('"')[1]}`
+			log.info(response.headers);
+		log.info('Content length? ' + response.headers.hasOwnProperty("content-length"));
 
-			response.pipe(fs.createWriteStream(destination_filepath))
-				.on('finish', () => {
+		if (response.headers.hasOwnProperty("content-length")) {
+			if (response.headers["content-length"] != 0) {
+				var destination_filepath = `/tmp/${response.headers['content-disposition']}`;
+				response.pipe(fs.createWriteStream(destination_filepath))
+					.on('finish', () => {
 					callback(destination_filepath);
-				});
-		});
+			});
+			} else
+				callback(null);
+
+		}
+		else
+			callback(null);
+	});
 	}
 }());

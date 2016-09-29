@@ -1,18 +1,18 @@
 'use strict';
 var restler    = require('restler'),
-	     fs    = require('fs'),
-	     log   = require('./logger'),
-	     utils = require('./utils');
+	fs    = require('fs'),
+	log   = require('./logger'),
+	utils = require('./utils');
 
 /**
  * @class
  * Wraps all the APIs related to audio tagging.
-*/
+ */
 class Tags {
 	/**
- 	* @constructor
- 	* @param {Credentials} credentials - An object of containing the user_id and token.
-	*/
+	 * @constructor
+	 * @param {Credentials} credentials - An object of containing the user_id and token.
+	 */
 	constructor(credentials) {
 		this.credentials = credentials;
 
@@ -29,28 +29,28 @@ class Tags {
 
 		fs.stat(filepath, (errors, stats) => {
 			if (!errors) {
-				restler.post(this.BASE_URL + '/tags/', {
-	    			headers: this.credentials.headers,
-	    			multipart: true,
-	    			data: {
-	    				'user': this.credentials.user_id,
-	    				'tag_file': restler.file(filepath, null, stats.size, null),
-	    				'language': language
-	    			}
-	    		}).on('complete', (response) => {
-	    			log.info('Uploaded Tags from file, API response = ' + JSON.stringify(response));
-	    			if (callback) {
-	    				callback(response);
-	    			}
-	    		});
-			}
-			else {
-				log.error(errors)
-				if (callback) {
-    				callback(response);
-    			}
+			restler.post(this.BASE_URL + '/tags/', {
+				headers: this.credentials.headers,
+				multipart: true,
+				data: {
+					'user': this.credentials.user_id,
+					'tag_file': restler.file(filepath, null, stats.size, null),
+					'language': language
+				}
+			}).on('complete', (response) => {
+				log.info('Uploaded Tags from file, API response = ' + JSON.stringify(response));
+			if (callback) {
+				callback(response);
 			}
 		});
+		}
+	else {
+			log.error(errors)
+			if (callback) {
+				callback(response);
+			}
+		}
+	});
 	}
 
 	/**
@@ -62,13 +62,13 @@ class Tags {
 	uploadTagsFromUrl (url, language="EN", callback) {
 		utils.downloadFileFromUrl(url, (temporary_filepath) => {
 			this.uploadTagsFromFile(temporary_filepath, language, (result) => {
-				log.info('Uploaded Tags from URL, API response = ' + JSON.stringify(result));
-				fs.unlinkSync(temporary_filepath);
-				if (callback) {
-					callback(result);
-				}
-			})
-		})
+			log.info('Uploaded Tags from URL, API response = ' + JSON.stringify(result));
+		fs.unlinkSync(temporary_filepath);
+		if (callback) {
+			callback(result);
+		}
+	})
+	})
 	}
 
 
@@ -82,28 +82,28 @@ class Tags {
 
 		fs.stat(filepath, (errors, stats) => {
 			if (!errors) {
-				restler.post(this.BASE_URL + '/recordings/', {
-	    			headers: this.credentials.headers,
-	    			multipart: true,
-	    			data: {
-	    				'user': this.credentials.user_id,
-	    				'audio_file': restler.file(filepath, null, stats.size, null),
-	    				'language': language
-	    			}
-	    		}).on('complete', (response) => {
-	    			log.info('Uploaded Tags from file, API response = ' + JSON.stringify(response));
-	    			if (callback) {
-	    				callback(response);
-	    			}
-	    		});
-			}
-			else {
-				log.error(errors)
-				if (callback) {
-    				callback(response);
-    			}
+			restler.post(this.BASE_URL + '/recordings/', {
+				headers: this.credentials.headers,
+				multipart: true,
+				data: {
+					'user': this.credentials.user_id,
+					'audio_file': restler.file(filepath, null, stats.size, null),
+					'language': language
+				}
+			}).on('complete', (response) => {
+				log.info('Uploaded Tags from file, API response = ' + JSON.stringify(response));
+			if (callback) {
+				callback(response);
 			}
 		});
+		}
+	else {
+			log.error(errors)
+			if (callback) {
+				callback(null);
+			}
+		}
+	});
 	}
 
 	/**
@@ -115,13 +115,13 @@ class Tags {
 	uploadSoundFromUrl (url, language="EN", callback) {
 		utils.downloadFileFromUrl(url, (temporary_filepath) => {
 			this.uploadSoundFile(temporary_filepath, language, (result) => {
-				log.info('Uploaded Sound file from URL, API response = ' + JSON.stringify(result));
-				fs.unlinkSync(temporary_filepath);
-				if (callback) {
-					callback(result);
-				}
-			})
-		})
+			log.info('Uploaded Sound file from URL, API response = ' + JSON.stringify(result));
+		fs.unlinkSync(temporary_filepath);
+		if (callback) {
+			callback(result);
+		}
+	})
+	})
 	}
 
 
